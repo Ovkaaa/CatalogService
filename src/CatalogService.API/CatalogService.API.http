@@ -1,0 +1,92 @@
+@CatalogService.API_HostAddress = http://localhost:5017
+@CategoryId = 1
+@ProductId = 1
+
+GET {{CatalogService.API_HostAddress}}/api/catalog/categories/{{CategoryId}}
+Accept: application/json
+
+###
+
+GET {{CatalogService.API_HostAddress}}/api/catalog/categories
+Accept: application/json
+
+###
+
+POST {{CatalogService.API_HostAddress}}/api/catalog/categories
+Accept: application/json
+{
+    "Id": {{CategoryId}},
+    "Name": "Test category",
+    "ImageUrl": "http://test-category.img",
+    "ParentCategoryId": null
+}
+
+###
+
+PUT {{CatalogService.API_HostAddress}}/api/catalog/categories/{{CategoryId}}
+Accept: application/json
+{
+    "Id": {{CategoryId}},
+    "Name": "Test category",
+    "ImageUrl": "http://test-category.img",
+    "ParentCategoryId": null
+}
+
+###
+
+DELETE {{CatalogService.API_HostAddress}}/api/catalog/categories/{{CategoryId}}
+Accept: application/json
+
+###
+
+
+
+
+
+GET {{CatalogService.API_HostAddress}}/api/catalog/categories/{{CategoryId}}/products
+Accept: application/json
+
+###
+
+GET {{CatalogService.API_HostAddress}}/api/catalog/products/{{ProductId}}
+Accept: application/json
+
+###
+
+GET {{CatalogService.API_HostAddress}}/api/catalog/products
+Accept: application/json
+
+###
+
+POST {{CatalogService.API_HostAddress}}/api/catalog/products
+Accept: application/json
+{
+    "Id": {{ProductId}},
+    "Name": "Test product",
+    "Description": "Test product description",
+    "ImageUrl": "http://test-product.img",
+    "Price": 10.0,
+    "Amount": 1,
+    "CategoryId": {{CategoryId}}
+}
+
+###
+
+PUT {{CatalogService.API_HostAddress}}/api/catalog/products/{{ProductId}}
+Accept: application/json
+{
+    "Id": {{ProductId}},
+    "Name": "Test product",
+    "Description": "Test product description",
+    "ImageUrl": "http://test-product.img",
+    "Price": 10.0,
+    "Amount": 1,
+    "CategoryId": {{CategoryId}}
+}
+
+###
+
+DELETE {{CatalogService.API_HostAddress}}/api/catalog/products/{{ProductId}}
+Accept: application/json
+
+###
