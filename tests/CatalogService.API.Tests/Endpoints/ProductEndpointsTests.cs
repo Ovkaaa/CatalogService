@@ -30,7 +30,9 @@ public class ProductEndpointsTests : IClassFixture<WebApplicationFactory<Program
     public async Task GetAllCategoryProducts_ReturnsList()
     {
         // Arrange
-        _serviceMock.Setup(s => s.GetAllCategoryProductsAsync(1)).ReturnsAsync(
+        _serviceMock
+            .Setup(s => s.GetProductsByCategoryIdAsync(1, It.IsAny<CancellationToken>()))
+            .ReturnsAsync(
             [
                 new() { Id = 1, Name = "One" },
                 new() { Id = 2, Name = "Two" }
@@ -51,7 +53,9 @@ public class ProductEndpointsTests : IClassFixture<WebApplicationFactory<Program
     {
         // Arrange
         var product = new Product { Id = 1, Name = "Test" };
-        _serviceMock.Setup(s => s.GetByIdAsync(1)).ReturnsAsync(product);
+        _serviceMock
+            .Setup(s => s.GetEntityByIdAsync(1, It.IsAny<CancellationToken>()))
+            .ReturnsAsync(product);
 
         // Act
         var response = await _client.GetAsync("/api/catalog/products/1");
@@ -67,7 +71,9 @@ public class ProductEndpointsTests : IClassFixture<WebApplicationFactory<Program
     public async Task GetAllProducts_ReturnsList()
     {
         // Arrange
-        _serviceMock.Setup(s => s.GetAllAsync()).ReturnsAsync(
+        _serviceMock
+            .Setup(s => s.GetEntitiesAsync(It.IsAny<CancellationToken>()))
+            .ReturnsAsync(
             [
                 new() { Id = 1, Name = "One" },
                 new() { Id = 2, Name = "Two" }
@@ -89,7 +95,9 @@ public class ProductEndpointsTests : IClassFixture<WebApplicationFactory<Program
         // Arrange
         var newProduct = new Product { Id = 10, Name = "New" };
 
-        _serviceMock.Setup(s => s.AddAsync(It.IsAny<Product>())).Returns(Task.CompletedTask);
+        _serviceMock
+            .Setup(s => s.AddEntityAsync(It.IsAny<Product>(), It.IsAny<CancellationToken>()))
+            .Returns(Task.CompletedTask);
 
         // Act
         var response = await _client.PostAsJsonAsync("/api/catalog/products", newProduct);
@@ -104,7 +112,9 @@ public class ProductEndpointsTests : IClassFixture<WebApplicationFactory<Program
         // Arrange
         var update = new Product { Name = "Updated" };
 
-        _serviceMock.Setup(s => s.UpdateAsync(It.IsAny<Product>())).Returns(Task.CompletedTask);
+        _serviceMock
+            .Setup(s => s.UpdateEntityAsync(It.IsAny<Product>(), It.IsAny<CancellationToken>()))
+            .Returns(Task.CompletedTask);
 
         // Act
         var response = await _client.PutAsJsonAsync("/api/catalog/products/5", update);
@@ -120,7 +130,9 @@ public class ProductEndpointsTests : IClassFixture<WebApplicationFactory<Program
     public async Task DeleteProduct_ReturnsOk()
     {
         // Arrange
-        _serviceMock.Setup(s => s.DeleteAsync(3)).Returns(Task.CompletedTask);
+        _serviceMock
+            .Setup(s => s.DeleteEntityAsync(3, It.IsAny<CancellationToken>()))
+            .Returns(Task.CompletedTask);
 
         // Act
         var response = await _client.DeleteAsync("/api/catalog/products/3");

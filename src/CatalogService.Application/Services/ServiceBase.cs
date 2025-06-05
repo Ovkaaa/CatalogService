@@ -7,13 +7,13 @@ namespace CatalogService.Application.Services;
 [ExcludeFromCodeCoverage]
 public class ServiceBase<TEntity>(IRepository<TEntity> repository) : IEntityService<TEntity> where TEntity : class
 {
-    public Task AddAsync(TEntity entity) => repository.AddAsync(entity);
+    public Task AddEntityAsync(TEntity entity, CancellationToken cancellationToken) => repository.AddEntityAsync(entity, cancellationToken);
 
-    public Task DeleteAsync(int id) => repository.DeleteAsync(id);
+    public Task DeleteEntityAsync(int id, CancellationToken cancellationToken) => repository.DeleteEntityAsync(id, cancellationToken);
 
-    public Task<List<TEntity>> GetAllAsync() => repository.GetAllAsync();
+    public Task<List<TEntity>> GetEntitiesAsync(CancellationToken cancellationToken) => repository.GetEntitiesAsync(cancellationToken);
 
-    public Task<TEntity?> GetByIdAsync(int id) => repository.GetByIdAsync(id);
+    public Task<TEntity?> GetEntityByIdAsync(int id, CancellationToken cancellationToken) => repository.GetEntityByIdAsync(id, cancellationToken);
 
-    public Task UpdateAsync(TEntity entity) => repository.UpdateAsync(entity);
+    public Task UpdateEntityAsync(TEntity entity, CancellationToken cancellationToken) => repository.UpdateEntityAsync(entity, cancellationToken);
 }

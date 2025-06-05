@@ -7,8 +7,8 @@ namespace CatalogService.Infrastructure.Repositories;
 
 public class ProductRepository(CatalogDbContext dbContext) : RepositoryBase<Product>(dbContext), IProductRepository
 {
-    public Task<List<Product>> GetAllCategoryProductsAsync(int categoryId)
+    public Task<List<Product>> GetProductsByCategoryIdAsync(int categoryId, CancellationToken cancellationToken)
     {
-        return _dbSet.Where(p => p.CategoryId == categoryId).ToListAsync();
+        return _dbSet.Where(p => p.CategoryId == categoryId).ToListAsync(cancellationToken);
     }
 }

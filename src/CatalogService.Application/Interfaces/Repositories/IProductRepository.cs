@@ -2,7 +2,7 @@
 
 namespace CatalogService.Application.Interfaces.Repositories;
 
-public interface IProductRepository: IRepository<Product>
+public interface IProductRepository : IRepository<Product>
 {
-    Task<List<Product>> GetAllCategoryProductsAsync(int categoryId);
+    Task<List<Product>> GetProductsByCategoryIdAsync(int categoryId, CancellationToken cancellationToken);
 }
