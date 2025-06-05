@@ -28,7 +28,7 @@ public abstract class RepositoryBaseTests<TEntity> where TEntity : class
         var entity = CreateEntity(entityId);
 
         // Act
-        await _repository.AddAsync(entity);
+        await _repository.AddEntityAsync(entity, CancellationToken.None);
         var saved = await _dbContext.Set<TEntity>().FirstOrDefaultAsync();
 
         // Assert
@@ -46,7 +46,7 @@ public abstract class RepositoryBaseTests<TEntity> where TEntity : class
         await _dbContext.SaveChangesAsync();
 
         // Act
-        var result = await _repository.GetByIdAsync(entityId);
+        var result = await _repository.GetEntityByIdAsync(entityId, CancellationToken.None);
 
         // Assert
         Assert.NotNull(result);
@@ -64,7 +64,7 @@ public abstract class RepositoryBaseTests<TEntity> where TEntity : class
 
         // Act
         var updatedEntity = UpdateEntity(entity);
-        await _repository.UpdateAsync(updatedEntity);
+        await _repository.UpdateEntityAsync(updatedEntity, CancellationToken.None);
 
         // Assert
         var actualEntity = await _dbContext.Set<TEntity>().FindAsync(entityId);
@@ -82,7 +82,7 @@ public abstract class RepositoryBaseTests<TEntity> where TEntity : class
         await _dbContext.SaveChangesAsync();
 
         // Act
-        await _repository.DeleteAsync(entityId);
+        await _repository.DeleteEntityAsync(entityId, CancellationToken.None);
 
         // Assert
         var exists = await _dbContext.Set<TEntity>().FindAsync(entityId);
@@ -100,7 +100,7 @@ public abstract class RepositoryBaseTests<TEntity> where TEntity : class
         await _dbContext.SaveChangesAsync();
 
         // Act
-        var all = await _repository.GetAllAsync();
+        var all = await _repository.GetEntitiesAsync(CancellationToken.None);
 
         // Assert
         Assert.Equal(2, all.Count);

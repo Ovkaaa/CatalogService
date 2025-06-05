@@ -31,7 +31,7 @@ public class CategoryEndpointsTests : IClassFixture<WebApplicationFactory<Progra
     {
         // Arrange
         var category = new Category { Id = 1, Name = "Test" };
-        _serviceMock.Setup(s => s.GetByIdAsync(1)).ReturnsAsync(category);
+        _serviceMock.Setup(s => s.GetEntityByIdAsync(1, It.IsAny<CancellationToken>())).ReturnsAsync(category);
 
         // Act
         var response = await _client.GetAsync("/api/catalog/categories/1");
@@ -47,11 +47,13 @@ public class CategoryEndpointsTests : IClassFixture<WebApplicationFactory<Progra
     public async Task GetAllCategories_ReturnsList()
     {
         // Arrange
-        _serviceMock.Setup(s => s.GetAllAsync()).ReturnsAsync(new List<Category>
-        {
-            new() { Id = 1, Name = "One" },
-            new() { Id = 2, Name = "Two" }
-        });
+        _serviceMock
+            .Setup(s => s.GetEntitiesAsync(It.IsAny<CancellationToken>()))
+            .ReturnsAsync(
+            [
+                new() { Id = 1, Name = "One" },
+                new() { Id = 2, Name = "Two" }
+            ]);
 
         // Act
         var response = await _client.GetAsync("/api/catalog/categories");
@@ -69,7 +71,7 @@ public class CategoryEndpointsTests : IClassFixture<WebApplicationFactory<Progra
         // Arrange
         var newCategory = new Category { Id = 10, Name = "New" };
 
-        _serviceMock.Setup(s => s.AddAsync(It.IsAny<Category>())).Returns(Task.CompletedTask);
+        _serviceMock.Setup(s => s.AddEntityAsync(It.IsAny<Category>(), It.IsAny<CancellationToken>())).Returns(Task.CompletedTask);
 
         // Act
         var response = await _client.PostAsJsonAsync("/api/catalog/categories", newCategory);
@@ -84,7 +86,7 @@ public class CategoryEndpointsTests : IClassFixture<WebApplicationFactory<Progra
         // Arrange
         var update = new Category { Name = "Updated" };
 
-        _serviceMock.Setup(s => s.UpdateAsync(It.IsAny<Category>())).Returns(Task.CompletedTask);
+        _serviceMock.Setup(s => s.UpdateEntityAsync(It.IsAny<Category>(), It.IsAny<CancellationToken>())).Returns(Task.CompletedTask);
 
         // Act
         var response = await _client.PutAsJsonAsync("/api/catalog/categories/5", update);
@@ -100,7 +102,7 @@ public class CategoryEndpointsTests : IClassFixture<WebApplicationFactory<Progra
     public async Task DeleteCategory_ReturnsOk()
     {
         // Arrange
-        _serviceMock.Setup(s => s.DeleteAsync(3)).Returns(Task.CompletedTask);
+        _serviceMock.Setup(s => s.DeleteEntityAsync(3, It.IsAny<CancellationToken>())).Returns(Task.CompletedTask);
 
         // Act
         var response = await _client.DeleteAsync("/api/catalog/categories/3");

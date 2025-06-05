@@ -4,5 +4,5 @@ namespace CatalogService.Application.Interfaces.Services;
 
 public interface IProductService : IEntityService<Product>
 {
-    Task<List<Product>> GetAllCategoryProductsAsync(int categoryId);
+    Task<List<Product>> GetProductsByCategoryIdAsync(int categoryId, CancellationToken cancellationToken);
 }

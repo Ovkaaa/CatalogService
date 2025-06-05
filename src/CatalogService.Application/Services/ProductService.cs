@@ -8,5 +8,5 @@ namespace CatalogService.Application.Services;
 [ExcludeFromCodeCoverage]
 public class ProductService(IProductRepository repository) : ServiceBase<Product>(repository), IProductService
 {
-    public Task<List<Product>> GetAllCategoryProductsAsync(int categoryId) => repository.GetAllCategoryProductsAsync(categoryId);
+    public Task<List<Product>> GetProductsByCategoryIdAsync(int categoryId, CancellationToken cancellationToken) => repository.GetProductsByCategoryIdAsync(categoryId, cancellationToken);
 }

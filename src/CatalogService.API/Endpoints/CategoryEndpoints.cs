@@ -10,38 +10,40 @@ public static partial class CatalogEndpoints
         var categoryRouteGroup = routeBuilder.MapGroup("categories").WithTags("Categories");
 
         categoryRouteGroup
-            .MapGet("{categoryId}", async (int categoryId, IEntityService<Category> service) => Results.Ok(await service.GetByIdAsync(categoryId)))
+            .MapGet("{categoryId}", async (int categoryId, IEntityService<Category> service, CancellationToken cancellationToken) =>
+                Results.Ok(await service.GetEntityByIdAsync(categoryId, cancellationToken)))
             .WithName("GetCategory")
             .WithOpenApi();
 
         categoryRouteGroup
-            .MapGet(string.Empty, async (IEntityService<Category> service) => Results.Ok(await service.GetAllAsync()))
-            .WithName("GetAllCategories")
+            .MapGet(string.Empty, async (IEntityService<Category> service, CancellationToken cancellationToken) =>
+                Results.Ok(await service.GetEntitiesAsync(cancellationToken)))
+            .WithName("GetCategories")
             .WithOpenApi();
 
         categoryRouteGroup
-            .MapPost(string.Empty, async (Category category, IEntityService<Category> service) =>
+            .MapPost(string.Empty, async (Category category, IEntityService<Category> service, CancellationToken cancellationToken) =>
             {
-                await service.AddAsync(category);
+                await service.AddEntityAsync(category, cancellationToken);
                 return Results.Created($"/api/catalog/categories/{category.Id}", category);
             })
             .WithName("AddCategory")
             .WithOpenApi();
 
         categoryRouteGroup
-            .MapPut("{categoryId}", async (int categoryId, Category category, IEntityService<Category> service) =>
+            .MapPut("{categoryId}", async (int categoryId, Category category, IEntityService<Category> service, CancellationToken cancellationToken) =>
             {
                 category.Id = categoryId;
-                await service.UpdateAsync(category);
+                await service.UpdateEntityAsync(category, cancellationToken);
                 return Results.Ok(category);
             })
             .WithName("UpdateCategory")
             .WithOpenApi();
 
         categoryRouteGroup
-            .MapDelete("{categoryId}", async (int categoryId, IEntityService<Category> service) =>
+            .MapDelete("{categoryId}", async (int categoryId, IEntityService<Category> service, CancellationToken cancellationToken) =>
             {
-                await service.DeleteAsync(categoryId);
+                await service.DeleteEntityAsync(categoryId, cancellationToken);
                 return Results.Ok();
             })
             .WithName("DeleteCategory")

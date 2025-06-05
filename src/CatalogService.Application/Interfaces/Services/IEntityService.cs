@@ -2,9 +2,9 @@
 
 public interface IEntityService<TEntity> where TEntity : class
 {
-    Task<List<TEntity>> GetAllAsync();
-    Task<TEntity?> GetByIdAsync(int id);
-    Task AddAsync(TEntity entity);
-    Task UpdateAsync(TEntity entity);
-    Task DeleteAsync(int id);
+    Task AddEntityAsync(TEntity entity, CancellationToken cancellationToken);
+    Task DeleteEntityAsync(int id, CancellationToken cancellationToken);
+    Task<List<TEntity>> GetEntitiesAsync(CancellationToken cancellationToken);
+    Task<TEntity?> GetEntityByIdAsync(int id, CancellationToken cancellationToken);
+    Task UpdateEntityAsync(TEntity entity, CancellationToken cancellationToken);
 }
