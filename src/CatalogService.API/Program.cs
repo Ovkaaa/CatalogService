@@ -1,4 +1,4 @@
-using CatalogService.API.Endpoints;
+using CatalogService.API.Extensions;
 using CatalogService.Application;
 using CatalogService.Infrastructure;
 
@@ -20,7 +20,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-app.AddCatalogEndpoints();
+app.MapEndpoints();
 
 app.Run();
 

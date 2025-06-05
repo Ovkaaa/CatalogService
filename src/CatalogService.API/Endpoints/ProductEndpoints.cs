@@ -3,43 +3,37 @@ using CatalogService.Domain.Entities;
 
 namespace CatalogService.API.Endpoints;
 
-public static partial class CatalogEndpoints
+public static class ProductEndpoints
 {
     public static void AddProductEndpoints(this IEndpointRouteBuilder routeBuilder)
     {
-        var categoryProductRouteGroup = routeBuilder.MapGroup("categories/{categoryId}/products").WithTags("Categories", "Products");
+        var productsRouteGroup = routeBuilder.MapGroup("products").WithTags("Products");
 
-        categoryProductRouteGroup
-            .MapGet(string.Empty, async (int categoryId, IProductService service, CancellationToken cancellationToken) =>
-                Results.Ok(await service.GetProductsByCategoryIdAsync(categoryId, cancellationToken)))
-            .WithName("GetProductsByCategoryId")
-            .WithOpenApi();
-
-        var productRouteGroup = routeBuilder.MapGroup("products").WithTags("Products");
-
-        productRouteGroup
-            .MapGet("{productId}", async (int productId, IProductService service, CancellationToken cancellationToken) =>
-                Results.Ok(await service.GetEntityByIdAsync(productId, cancellationToken)))
-            .WithName("GetProduct")
-            .WithOpenApi();
-
-        productRouteGroup
+        productsRouteGroup
             .MapGet(string.Empty, async (IProductService service, CancellationToken cancellationToken) =>
                 Results.Ok(await service.GetEntitiesAsync(cancellationToken)))
             .WithName("GetProducts")
             .WithOpenApi();
 
-        productRouteGroup
+        productsRouteGroup
             .MapPost(string.Empty, async (Product product, IProductService service, CancellationToken cancellationToken) =>
             {
                 await service.AddEntityAsync(product, cancellationToken);
-                return Results.Created($"/api/products/{product.Id}", product);
+                return Results.Created($"/api/v1/products/{product.Id}", product);
             })
             .WithName("AddProduct")
             .WithOpenApi();
 
-        productRouteGroup
-            .MapPut("{productId}", async (int productId, Product product, IProductService service, CancellationToken cancellationToken) =>
+        var specificProductRouteGroup = productsRouteGroup.MapGroup("{productId}");
+
+        specificProductRouteGroup
+            .MapGet(string.Empty, async (int productId, IProductService service, CancellationToken cancellationToken) =>
+                Results.Ok(await service.GetEntityByIdAsync(productId, cancellationToken)))
+            .WithName("GetProduct")
+            .WithOpenApi();
+
+        specificProductRouteGroup
+            .MapPut(string.Empty, async (int productId, Product product, IProductService service, CancellationToken cancellationToken) =>
             {
                 product.Id = productId;
                 await service.UpdateEntityAsync(product, cancellationToken);
@@ -48,8 +42,8 @@ public static partial class CatalogEndpoints
             .WithName("UpdateProduct")
             .WithOpenApi();
 
-        productRouteGroup
-            .MapDelete("{productId}", async (int productId, IProductService service, CancellationToken cancellationToken) =>
+        specificProductRouteGroup
+            .MapDelete(string.Empty, async (int productId, IProductService service, CancellationToken cancellationToken) =>
             {
                 await service.DeleteEntityAsync(productId, cancellationToken);
                 return Results.Ok();

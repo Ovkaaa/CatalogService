@@ -39,7 +39,7 @@ public class ProductEndpointsTests : IClassFixture<WebApplicationFactory<Program
             ]);
 
         // Act
-        var response = await _client.GetAsync("/api/catalog/categories/1/products");
+        var response = await _client.GetAsync("/api/v1/categories/1/products");
 
         // Assert
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
@@ -58,7 +58,7 @@ public class ProductEndpointsTests : IClassFixture<WebApplicationFactory<Program
             .ReturnsAsync(product);
 
         // Act
-        var response = await _client.GetAsync("/api/catalog/products/1");
+        var response = await _client.GetAsync("/api/v1/products/1");
 
         // Assert
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
@@ -80,7 +80,7 @@ public class ProductEndpointsTests : IClassFixture<WebApplicationFactory<Program
             ]);
 
         // Act
-        var response = await _client.GetAsync("/api/catalog/products");
+        var response = await _client.GetAsync("/api/v1/products");
 
         // Assert
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
@@ -100,7 +100,7 @@ public class ProductEndpointsTests : IClassFixture<WebApplicationFactory<Program
             .Returns(Task.CompletedTask);
 
         // Act
-        var response = await _client.PostAsJsonAsync("/api/catalog/products", newProduct);
+        var response = await _client.PostAsJsonAsync("/api/v1/products", newProduct);
 
         // Assert
         Assert.Equal(HttpStatusCode.Created, response.StatusCode);
@@ -117,7 +117,7 @@ public class ProductEndpointsTests : IClassFixture<WebApplicationFactory<Program
             .Returns(Task.CompletedTask);
 
         // Act
-        var response = await _client.PutAsJsonAsync("/api/catalog/products/5", update);
+        var response = await _client.PutAsJsonAsync("/api/v1/products/5", update);
 
         // Assert
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
@@ -135,7 +135,7 @@ public class ProductEndpointsTests : IClassFixture<WebApplicationFactory<Program
             .Returns(Task.CompletedTask);
 
         // Act
-        var response = await _client.DeleteAsync("/api/catalog/products/3");
+        var response = await _client.DeleteAsync("/api/v1/products/3");
 
         // Assert
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
