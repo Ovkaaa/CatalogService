@@ -1,11 +1,11 @@
 ﻿using System.Net.Http.Json;
 using System.Net;
 using CatalogService.Application.Interfaces.Services;
-using CatalogService.Domain.Entities;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
+using CatalogService.Domain.Categories;
 
 namespace CatalogService.API.Tests.Endpoints;
 

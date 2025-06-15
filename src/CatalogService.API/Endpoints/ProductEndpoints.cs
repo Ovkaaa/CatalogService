@@ -1,5 +1,5 @@
 ﻿using CatalogService.Application.Interfaces.Services;
-using CatalogService.Domain.Entities;
+using CatalogService.Domain.Products;
 
 namespace CatalogService.API.Endpoints;
 

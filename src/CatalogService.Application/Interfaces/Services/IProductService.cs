@@ -1,4 +1,4 @@
-﻿using CatalogService.Domain.Entities;
+﻿using CatalogService.Domain.Products;
 
 namespace CatalogService.Application.Interfaces.Services;
 

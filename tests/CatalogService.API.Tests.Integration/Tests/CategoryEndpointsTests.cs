@@ -1,7 +1,7 @@
 ﻿using System.Net;
 using System.Net.Http.Json;
 using CatalogService.API.Tests.Integration.Factories;
-using CatalogService.Domain.Entities;
+using CatalogService.Domain.Categories;
 
 namespace CatalogService.API.Tests.Integration.Tests;
 

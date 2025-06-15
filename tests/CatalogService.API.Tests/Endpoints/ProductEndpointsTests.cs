@@ -1,7 +1,7 @@
 ﻿using System.Net;
 using System.Net.Http.Json;
 using CatalogService.Application.Interfaces.Services;
-using CatalogService.Domain.Entities;
+using CatalogService.Domain.Products;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection;

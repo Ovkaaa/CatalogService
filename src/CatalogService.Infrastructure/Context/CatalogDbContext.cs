@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
-using CatalogService.Domain.Entities;
+using CatalogService.Domain.Categories;
+using CatalogService.Domain.Products;
 using Microsoft.EntityFrameworkCore;
 
 namespace CatalogService.Infrastructure.Context;
