@@ -1,4 +1,5 @@
-﻿using CatalogService.Application.Interfaces.Services;
+﻿using CatalogService.API.Auth;
+using CatalogService.Application.Interfaces.Services;
 using CatalogService.Domain.Products;
 
 namespace CatalogService.API.Endpoints;
@@ -13,6 +14,7 @@ public static class ProductEndpoints
             .MapGet(string.Empty, async (IProductService service, CancellationToken cancellationToken) =>
                 Results.Ok(await service.GetEntitiesAsync(cancellationToken)))
             .WithName("GetProducts")
+            .RequireAuthorization(AuthPolicy.CanRead)
             .WithOpenApi();
 
         productsRouteGroup
@@ -22,6 +24,7 @@ public static class ProductEndpoints
                 return Results.Created($"/api/v1/products/{product.Id}", product);
             })
             .WithName("AddProduct")
+            .RequireAuthorization(AuthPolicy.CanCreate)
             .WithOpenApi();
 
         var specificProductRouteGroup = productsRouteGroup.MapGroup("{productId}");
@@ -30,6 +33,7 @@ public static class ProductEndpoints
             .MapGet(string.Empty, async (int productId, IProductService service, CancellationToken cancellationToken) =>
                 Results.Ok(await service.GetEntityByIdAsync(productId, cancellationToken)))
             .WithName("GetProduct")
+            .RequireAuthorization(AuthPolicy.CanRead)
             .WithOpenApi();
 
         specificProductRouteGroup
@@ -40,6 +44,7 @@ public static class ProductEndpoints
                 return Results.Ok(product);
             })
             .WithName("UpdateProduct")
+            .RequireAuthorization(AuthPolicy.CanUpdate)
             .WithOpenApi();
 
         specificProductRouteGroup
@@ -49,6 +54,7 @@ public static class ProductEndpoints
                 return Results.Ok();
             })
             .WithName("DeleteProduct")
+            .RequireAuthorization(AuthPolicy.CanDelete)
             .WithOpenApi();
     }
 }

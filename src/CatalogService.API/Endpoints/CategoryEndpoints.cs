@@ -1,4 +1,5 @@
-﻿using CatalogService.Application.Interfaces.Services;
+﻿using CatalogService.API.Auth;
+using CatalogService.Application.Interfaces.Services;
 using CatalogService.Domain.Categories;
 
 namespace CatalogService.API.Endpoints;
@@ -13,6 +14,7 @@ public static class CatalogEndpoints
             .MapGet(string.Empty, async (IEntityService<Category> service, CancellationToken cancellationToken) =>
                 Results.Ok(await service.GetEntitiesAsync(cancellationToken)))
             .WithName("GetCategories")
+            .RequireAuthorization(AuthPolicy.CanRead)
             .WithOpenApi();
 
         categoriesRouteGroup
@@ -22,12 +24,14 @@ public static class CatalogEndpoints
                 return Results.Created($"/api/v1/categories/{category.Id}", category);
             })
             .WithName("AddCategory")
+            .RequireAuthorization(AuthPolicy.CanCreate)
             .WithOpenApi();
 
         categoriesRouteGroup
             .MapGet("{categoryId}", async (int categoryId, IEntityService<Category> service, CancellationToken cancellationToken) =>
                 Results.Ok(await service.GetEntityByIdAsync(categoryId, cancellationToken)))
             .WithName("GetCategory")
+            .RequireAuthorization(AuthPolicy.CanRead)
             .WithOpenApi();
 
         var specificCategoryRouteGroup = categoriesRouteGroup.MapGroup("{categoryId}");
@@ -40,6 +44,7 @@ public static class CatalogEndpoints
                 return Results.Ok(category);
             })
             .WithName("UpdateCategory")
+            .RequireAuthorization(AuthPolicy.CanUpdate)
             .WithOpenApi();
 
         specificCategoryRouteGroup
@@ -49,12 +54,14 @@ public static class CatalogEndpoints
                 return Results.Ok();
             })
             .WithName("DeleteCategory")
+            .RequireAuthorization(AuthPolicy.CanDelete)
             .WithOpenApi();
 
         specificCategoryRouteGroup
             .MapGet("products", async (int categoryId, IProductService service, CancellationToken cancellationToken) =>
                 Results.Ok(await service.GetProductsByCategoryIdAsync(categoryId, cancellationToken)))
             .WithName("GetProductsByCategoryId")
+            .RequireAuthorization(AuthPolicy.CanRead)
             .WithOpenApi()
             .WithTags("Products");
     }
