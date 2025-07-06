@@ -2,28 +2,17 @@
 @CategoryId = 1
 @ProductId = 1
 
-GET {{CatalogService.API_HostAddress}}/api/catalog/categories/{{CategoryId}}
+GET {{CatalogService.API_HostAddress}}/api/v1/categories/{{CategoryId}}
 Accept: application/json
 
 ###
 
-GET {{CatalogService.API_HostAddress}}/api/catalog/categories
+GET {{CatalogService.API_HostAddress}}/api/v1/categories
 Accept: application/json
 
 ###
 
-POST {{CatalogService.API_HostAddress}}/api/catalog/categories
-Accept: application/json
-{
-    "Id": {{CategoryId}},
-    "Name": "Test category",
-    "ImageUrl": "http://test-category.img",
-    "ParentCategoryId": null
-}
-
-###
-
-PUT {{CatalogService.API_HostAddress}}/api/catalog/categories/{{CategoryId}}
+POST {{CatalogService.API_HostAddress}}/api/v1/categories
 Accept: application/json
 {
     "Id": {{CategoryId}},
@@ -34,7 +23,18 @@ Accept: application/json
 
 ###
 
-DELETE {{CatalogService.API_HostAddress}}/api/catalog/categories/{{CategoryId}}
+PUT {{CatalogService.API_HostAddress}}/api/v1/categories/{{CategoryId}}
+Accept: application/json
+{
+    "Id": {{CategoryId}},
+    "Name": "Test category",
+    "ImageUrl": "http://test-category.img",
+    "ParentCategoryId": null
+}
+
+###
+
+DELETE {{CatalogService.API_HostAddress}}/api/v1/categories/{{CategoryId}}
 Accept: application/json
 
 ###
@@ -43,22 +43,22 @@ Accept: application/json
 
 
 
-GET {{CatalogService.API_HostAddress}}/api/catalog/categories/{{CategoryId}}/products
+GET {{CatalogService.API_HostAddress}}/api/v1/categories/{{CategoryId}}/products
 Accept: application/json
 
 ###
 
-GET {{CatalogService.API_HostAddress}}/api/catalog/products/{{ProductId}}
+GET {{CatalogService.API_HostAddress}}/api/v1/products/{{ProductId}}
 Accept: application/json
 
 ###
 
-GET {{CatalogService.API_HostAddress}}/api/catalog/products
+GET {{CatalogService.API_HostAddress}}/api/v1/products
 Accept: application/json
 
 ###
 
-POST {{CatalogService.API_HostAddress}}/api/catalog/products
+POST {{CatalogService.API_HostAddress}}/api/v1/products
 Accept: application/json
 {
     "Id": {{ProductId}},
@@ -72,7 +72,7 @@ Accept: application/json
 
 ###
 
-PUT {{CatalogService.API_HostAddress}}/api/catalog/products/{{ProductId}}
+PUT {{CatalogService.API_HostAddress}}/api/v1/products/{{ProductId}}
 Accept: application/json
 {
     "Id": {{ProductId}},
@@ -86,7 +86,7 @@ Accept: application/json
 
 ###
 
-DELETE {{CatalogService.API_HostAddress}}/api/catalog/products/{{ProductId}}
+DELETE {{CatalogService.API_HostAddress}}/api/v1/products/{{ProductId}}
 Accept: application/json
 
 ###

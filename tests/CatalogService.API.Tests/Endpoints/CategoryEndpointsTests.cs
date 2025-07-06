@@ -1,11 +1,11 @@
 ﻿using System.Net.Http.Json;
 using System.Net;
 using CatalogService.Application.Interfaces.Services;
-using CatalogService.Domain.Entities;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
+using CatalogService.Domain.Categories;
 
 namespace CatalogService.API.Tests.Endpoints;
 
@@ -34,7 +34,7 @@ public class CategoryEndpointsTests : IClassFixture<WebApplicationFactory<Progra
         _serviceMock.Setup(s => s.GetEntityByIdAsync(1, It.IsAny<CancellationToken>())).ReturnsAsync(category);
 
         // Act
-        var response = await _client.GetAsync("/api/catalog/categories/1");
+        var response = await _client.GetAsync("/api/v1/categories/1");
 
         // Assert
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
@@ -56,7 +56,7 @@ public class CategoryEndpointsTests : IClassFixture<WebApplicationFactory<Progra
             ]);
 
         // Act
-        var response = await _client.GetAsync("/api/catalog/categories");
+        var response = await _client.GetAsync("/api/v1/categories");
 
         // Assert
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
@@ -74,7 +74,7 @@ public class CategoryEndpointsTests : IClassFixture<WebApplicationFactory<Progra
         _serviceMock.Setup(s => s.AddEntityAsync(It.IsAny<Category>(), It.IsAny<CancellationToken>())).Returns(Task.CompletedTask);
 
         // Act
-        var response = await _client.PostAsJsonAsync("/api/catalog/categories", newCategory);
+        var response = await _client.PostAsJsonAsync("/api/v1/categories", newCategory);
 
         // Assert
         Assert.Equal(HttpStatusCode.Created, response.StatusCode);
@@ -89,7 +89,7 @@ public class CategoryEndpointsTests : IClassFixture<WebApplicationFactory<Progra
         _serviceMock.Setup(s => s.UpdateEntityAsync(It.IsAny<Category>(), It.IsAny<CancellationToken>())).Returns(Task.CompletedTask);
 
         // Act
-        var response = await _client.PutAsJsonAsync("/api/catalog/categories/5", update);
+        var response = await _client.PutAsJsonAsync("/api/v1/categories/5", update);
 
         // Assert
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
@@ -105,7 +105,7 @@ public class CategoryEndpointsTests : IClassFixture<WebApplicationFactory<Progra
         _serviceMock.Setup(s => s.DeleteEntityAsync(3, It.IsAny<CancellationToken>())).Returns(Task.CompletedTask);
 
         // Act
-        var response = await _client.DeleteAsync("/api/catalog/categories/3");
+        var response = await _client.DeleteAsync("/api/v1/categories/3");
 
         // Assert
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);

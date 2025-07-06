@@ -1,5 +1,5 @@
 ﻿using CatalogService.Application.Interfaces.Repositories;
-using CatalogService.Domain.Entities;
+using CatalogService.Domain.Categories;
 using CatalogService.Infrastructure.Context;
 
 namespace CatalogService.Infrastructure.Repositories;

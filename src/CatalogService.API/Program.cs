@@ -1,9 +1,12 @@
-using CatalogService.API.Endpoints;
+using CatalogService.API.Auth;
+using CatalogService.API.Extensions;
 using CatalogService.Application;
 using CatalogService.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 var isTestingEnv = builder.Environment.IsEnvironment("Testing");
+
+builder.Services.AddAuth(builder.Configuration);
 
 builder.Services.AddApplication();
 builder.Services.AddInfrastructure(builder.Configuration, isTestingEnv);
@@ -20,7 +23,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-app.AddCatalogEndpoints();
+app.MapEndpoints();
 
 app.Run();
 

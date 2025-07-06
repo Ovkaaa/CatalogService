@@ -1,4 +1,4 @@
-﻿using CatalogService.Domain.Entities;
+﻿using CatalogService.Domain.Products;
 using CatalogService.Infrastructure.Context;
 using CatalogService.Infrastructure.Repositories;
 
