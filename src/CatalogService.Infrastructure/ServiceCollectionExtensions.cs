@@ -15,10 +15,11 @@ using System.Diagnostics.CodeAnalysis;
 namespace CatalogService.Infrastructure;
 
 [ExcludeFromCodeCoverage]
-public static class DependencyInjection
+public static class ServiceCollectionExtensions
 {
     public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration, bool isTestingEnv)
     {
+        ArgumentNullException.ThrowIfNull(configuration);
         if (!isTestingEnv)
         {
             string? connectionString = configuration.GetConnectionString("CatalogDb");

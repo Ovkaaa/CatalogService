@@ -10,6 +10,7 @@ public class CatalogDbContext(DbContextOptions<CatalogDbContext> options) : DbCo
 {
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        ArgumentNullException.ThrowIfNull(modelBuilder);
         modelBuilder.Entity<Category>(builder =>
         {
             builder.Property(x => x.Name).IsRequired().HasMaxLength(50);

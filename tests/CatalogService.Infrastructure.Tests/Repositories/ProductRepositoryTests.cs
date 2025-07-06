@@ -12,12 +12,14 @@ public class ProductRepositoryTests : RepositoryBaseTests<Product>
 
     protected override void AssertEntityEquels(Product actualEntity, int expectedId)
     {
+        ArgumentNullException.ThrowIfNull(actualEntity);
         Assert.Equal(expectedId, actualEntity.Id);
         Assert.Equal($"Test {expectedId}", actualEntity.Name);
     }
 
     protected override void AssertUpdatedEntityEquels(Product actualEntity, int expectedId)
     {
+        ArgumentNullException.ThrowIfNull(actualEntity);
         Assert.Equal(expectedId, actualEntity.Id);
         Assert.Equal($"Updated Test {expectedId}", actualEntity.Name);
     }
@@ -33,6 +35,7 @@ public class ProductRepositoryTests : RepositoryBaseTests<Product>
 
     protected override Product UpdateEntity(Product entity)
     {
+        ArgumentNullException.ThrowIfNull(entity);
         entity.Name = $"Updated Test {entity.Id}";
 
         return entity;

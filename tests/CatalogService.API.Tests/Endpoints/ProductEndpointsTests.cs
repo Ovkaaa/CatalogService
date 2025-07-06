@@ -17,6 +17,7 @@ public class ProductEndpointsTests : IClassFixture<WebApplicationFactory<Program
 
     public ProductEndpointsTests(WebApplicationFactory<Program> factory)
     {
+        ArgumentNullException.ThrowIfNull(factory);
         _client = factory.WithWebHostBuilder(builder =>
         {
             builder.ConfigureTestServices(services =>

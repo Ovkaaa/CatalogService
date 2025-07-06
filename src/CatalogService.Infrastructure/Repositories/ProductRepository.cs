@@ -9,6 +9,6 @@ public class ProductRepository(CatalogDbContext dbContext) : RepositoryBase<Prod
 {
     public Task<List<Product>> GetProductsByCategoryIdAsync(int categoryId, CancellationToken cancellationToken)
     {
-        return _dbSet.Where(p => p.CategoryId == categoryId).ToListAsync(cancellationToken);
+        return DbSet.Where(p => p.CategoryId == categoryId).ToListAsync(cancellationToken);
     }
 }

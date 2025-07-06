@@ -10,7 +10,7 @@ using System.Diagnostics.CodeAnalysis;
 namespace CatalogService.Application;
 
 [ExcludeFromCodeCoverage]
-public static class DependencyInjection
+public static class ServiceCollectionExtensions
 {
     public static IServiceCollection AddApplication(this IServiceCollection services)
     {

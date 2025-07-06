@@ -7,5 +7,5 @@ public class EventPublisherOptions
 {
     public const string SectionName = "EventPublisherOptions";
 
-    public Dictionary<string, string> EventQueues { get; set; } = [];
+    public Dictionary<string, string> EventQueues { get; } = [];
 }

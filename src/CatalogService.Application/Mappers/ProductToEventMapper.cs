@@ -9,6 +9,7 @@ public class ProductToEventMapper : IEntityToEventMapper<Product>
 {
     public TEvent Map<TEvent>(Product entity) where TEvent : class, IDomainEvent
     {
+        ArgumentNullException.ThrowIfNull(entity);
         return typeof(TEvent) switch
         {
             Type t when t == typeof(ProductCreatedDomainEvent) => (TEvent)(object)new ProductCreatedDomainEvent(entity.Id, entity.Name, entity.Price, entity.Amount),
