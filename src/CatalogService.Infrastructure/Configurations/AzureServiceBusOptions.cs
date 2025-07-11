@@ -6,6 +6,6 @@ namespace CatalogService.Infrastructure.Configurations;
 public class AzureServiceBusOptions
 {
     public const string SectionName = "AzureServiceBusOptions";
-    
+
     public string ConnectionString { get; set; } = string.Empty;
 }

@@ -6,13 +6,14 @@ namespace CatalogService.Infrastructure.Tests.Repositories;
 
 public abstract class RepositoryBaseTests<TEntity> where TEntity : class
 {
-    protected readonly CatalogDbContext _dbContext;
-    protected readonly RepositoryBase<TEntity> _repository;
+    protected CatalogDbContext DbContext { get; init; }
+    protected RepositoryBase<TEntity> Repository { get; init; }
 
     protected RepositoryBaseTests(Func<CatalogDbContext, RepositoryBase<TEntity>> repositoryFactory)
     {
-        _dbContext = TestDbContextFactory.Create();
-        _repository = repositoryFactory(_dbContext);
+        ArgumentNullException.ThrowIfNull(repositoryFactory);
+        DbContext = TestDbContextFactory.Create();
+        Repository = repositoryFactory(DbContext);
     }
 
     protected abstract void AssertEntityEquels(TEntity actualEntity, int expectedId);
@@ -28,8 +29,8 @@ public abstract class RepositoryBaseTests<TEntity> where TEntity : class
         var entity = CreateEntity(entityId);
 
         // Act
-        await _repository.AddEntityAsync(entity, CancellationToken.None);
-        var saved = await _dbContext.Set<TEntity>().FirstOrDefaultAsync();
+        await Repository.AddEntityAsync(entity, CancellationToken.None);
+        var saved = await DbContext.Set<TEntity>().FirstOrDefaultAsync();
 
         // Assert
         Assert.NotNull(saved);
@@ -42,11 +43,11 @@ public abstract class RepositoryBaseTests<TEntity> where TEntity : class
         // Arrange
         int entityId = 1;
         var entity = CreateEntity(entityId);
-        _dbContext.Set<TEntity>().Add(entity);
-        await _dbContext.SaveChangesAsync();
+        DbContext.Set<TEntity>().Add(entity);
+        await DbContext.SaveChangesAsync();
 
         // Act
-        var result = await _repository.GetEntityByIdAsync(entityId, CancellationToken.None);
+        var result = await Repository.GetEntityByIdAsync(entityId, CancellationToken.None);
 
         // Assert
         Assert.NotNull(result);
@@ -59,15 +60,15 @@ public abstract class RepositoryBaseTests<TEntity> where TEntity : class
         // Arrange
         int entityId = 1;
         var entity = CreateEntity(entityId);
-        _dbContext.Set<TEntity>().Add(entity);
-        await _dbContext.SaveChangesAsync();
+        DbContext.Set<TEntity>().Add(entity);
+        await DbContext.SaveChangesAsync();
 
         // Act
         var updatedEntity = UpdateEntity(entity);
-        await _repository.UpdateEntityAsync(updatedEntity, CancellationToken.None);
+        await Repository.UpdateEntityAsync(updatedEntity, CancellationToken.None);
 
         // Assert
-        var actualEntity = await _dbContext.Set<TEntity>().FindAsync(entityId);
+        var actualEntity = await DbContext.Set<TEntity>().FindAsync(entityId);
         Assert.NotNull(actualEntity);
         AssertUpdatedEntityEquels(actualEntity, entityId);
     }
@@ -77,15 +78,15 @@ public abstract class RepositoryBaseTests<TEntity> where TEntity : class
     {
         // Arrange
         int entityId = 1;
-        var entity = CreateEntity(entityId); 
-        _dbContext.Set<TEntity>().Add(entity);
-        await _dbContext.SaveChangesAsync();
+        var entity = CreateEntity(entityId);
+        DbContext.Set<TEntity>().Add(entity);
+        await DbContext.SaveChangesAsync();
 
         // Act
-        await _repository.DeleteEntityAsync(entityId, CancellationToken.None);
+        await Repository.DeleteEntityAsync(entityId, CancellationToken.None);
 
         // Assert
-        var exists = await _dbContext.Set<TEntity>().FindAsync(entityId);
+        var exists = await DbContext.Set<TEntity>().FindAsync(entityId);
         Assert.Null(exists);
     }
 
@@ -93,14 +94,14 @@ public abstract class RepositoryBaseTests<TEntity> where TEntity : class
     public async Task GetAllAsync_ShouldReturnAllCategories()
     {
         // Arrange
-        _dbContext.Set<TEntity>().AddRange(
+        DbContext.Set<TEntity>().AddRange(
             CreateEntity(1),
             CreateEntity(2)
         );
-        await _dbContext.SaveChangesAsync();
+        await DbContext.SaveChangesAsync();
 
         // Act
-        var all = await _repository.GetEntitiesAsync(CancellationToken.None);
+        var all = await Repository.GetEntitiesAsync(CancellationToken.None);
 
         // Assert
         Assert.Equal(2, all.Count);

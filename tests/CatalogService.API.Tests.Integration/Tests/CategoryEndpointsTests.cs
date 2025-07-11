@@ -47,7 +47,7 @@ public class CategoryEndpointsTests(CustomWebApplicationFactory factory) : BaseE
     }
 
     [Fact]
-     public async Task AddCategory_ReturnsCreated()
+    public async Task AddCategory_ReturnsCreated()
     {
         // Arrange
         var newCategory = new Category { Id = 10, Name = "New" };

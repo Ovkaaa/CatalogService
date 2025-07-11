@@ -12,12 +12,14 @@ public class CategoryRepositoryTests : RepositoryBaseTests<Category>
 
     protected override void AssertEntityEquels(Category actualEntity, int expectedId)
     {
+        ArgumentNullException.ThrowIfNull(actualEntity);
         Assert.Equal(expectedId, actualEntity.Id);
         Assert.Equal($"Test {expectedId}", actualEntity.Name);
     }
 
     protected override void AssertUpdatedEntityEquels(Category actualEntity, int expectedId)
     {
+        ArgumentNullException.ThrowIfNull(actualEntity);
         Assert.Equal(expectedId, actualEntity.Id);
         Assert.Equal($"Updated Test {expectedId}", actualEntity.Name);
     }
@@ -33,6 +35,7 @@ public class CategoryRepositoryTests : RepositoryBaseTests<Category>
 
     protected override Category UpdateEntity(Category entity)
     {
+        ArgumentNullException.ThrowIfNull(entity);
         entity.Name = $"Updated Test {entity.Id}";
 
         return entity;

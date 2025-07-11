@@ -15,5 +15,5 @@ public class ServiceBase<TEntity>(IRepository<TEntity> repository) : IEntityServ
 
     public virtual Task<TEntity?> GetEntityByIdAsync(int id, CancellationToken cancellationToken) => repository.GetEntityByIdAsync(id, cancellationToken);
 
-    public  virtual Task UpdateEntityAsync(TEntity entity, CancellationToken cancellationToken) => repository.UpdateEntityAsync(entity, cancellationToken);
+    public virtual Task UpdateEntityAsync(TEntity entity, CancellationToken cancellationToken) => repository.UpdateEntityAsync(entity, cancellationToken);
 }

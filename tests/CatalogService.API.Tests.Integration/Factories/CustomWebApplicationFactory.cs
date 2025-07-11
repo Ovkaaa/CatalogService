@@ -10,6 +10,7 @@ public class CustomWebApplicationFactory : WebApplicationFactory<Program>
 {
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
+        ArgumentNullException.ThrowIfNull(builder);
         builder.UseEnvironment("Testing");
         builder.ConfigureServices(services =>
         {

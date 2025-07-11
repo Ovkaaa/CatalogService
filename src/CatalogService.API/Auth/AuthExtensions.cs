@@ -4,6 +4,7 @@ public static class AuthExtensions
 {
     public static IServiceCollection AddAuth(this IServiceCollection services, IConfiguration configuration)
     {
+        ArgumentNullException.ThrowIfNull(configuration);
         var authOptions = configuration.GetSection(AuthOptions.SectionName).Get<AuthOptions>();
 
         services.AddAuthentication("Bearer")
