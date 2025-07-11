@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
+using RabbitMQ.Client;
 using System.Diagnostics.CodeAnalysis;
 
 namespace CatalogService.Infrastructure;
@@ -30,19 +31,9 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IProductRepository, ProductRepository>();
         services.AddScoped<IRepository<Category>, CategoryRepository>();
 
-        services.Configure<AzureServiceBusOptions>(configuration.GetSection(AzureServiceBusOptions.SectionName));
-        services.AddSingleton(sp =>
-        {
-            var options = sp.GetRequiredService<IOptions<AzureServiceBusOptions>>().Value;
-
-            if (string.IsNullOrWhiteSpace(options.ConnectionString))
-                throw new InvalidOperationException("Azure Service Bus connection string is not configured.");
-
-            return new ServiceBusClient(options.ConnectionString);
-        });
-
+        services.Configure<RabbitMqOptions>(configuration.GetSection(RabbitMqOptions.SectionName));
         services.Configure<EventPublisherOptions>(configuration.GetSection(EventPublisherOptions.SectionName));
-        services.AddSingleton<IEventPublisher, AzureServiceBusEventPublisher>();
+        services.AddSingleton<IEventPublisher, RabbitMqEventPublisher>();
 
         return services;
     }
