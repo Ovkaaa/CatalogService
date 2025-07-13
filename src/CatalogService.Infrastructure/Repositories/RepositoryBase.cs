@@ -19,14 +19,12 @@ public abstract class RepositoryBase<TEntity> : IRepository<TEntity> where TEnti
     public async Task AddEntityAsync(TEntity entity, CancellationToken cancellationToken)
     {
         await DbSet.AddAsync(entity, cancellationToken);
-        await DbContext.SaveChangesAsync(cancellationToken);
     }
 
     public async Task DeleteEntityAsync(int id, CancellationToken cancellationToken)
     {
         var entity = await DbSet.FindAsync([id], cancellationToken);
         if (entity != null) DbSet.Remove(entity);
-        await DbContext.SaveChangesAsync(cancellationToken);
     }
 
     public Task<List<TEntity>> GetEntitiesAsync(CancellationToken cancellationToken) => DbSet.ToListAsync(cancellationToken);
@@ -36,6 +34,11 @@ public abstract class RepositoryBase<TEntity> : IRepository<TEntity> where TEnti
     public Task UpdateEntityAsync(TEntity entity, CancellationToken cancellationToken)
     {
         DbSet.Update(entity);
-        return DbContext.SaveChangesAsync(cancellationToken);
+        return Task.CompletedTask;
+    }
+
+    public async Task SaveChangesAsync(CancellationToken cancellationToken)
+    {
+        await DbContext.SaveChangesAsync(cancellationToken);
     }
 }

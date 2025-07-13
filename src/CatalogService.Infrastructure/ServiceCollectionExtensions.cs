@@ -1,7 +1,8 @@
-﻿using Azure.Messaging.ServiceBus;
-using CatalogService.Application.Interfaces.Events;
+﻿using CatalogService.Application.Interfaces.Events;
 using CatalogService.Application.Interfaces.Repositories;
 using CatalogService.Domain.Categories;
+using CatalogService.Infrastructure.Clients;
+using CatalogService.Infrastructure.Clients.Interfaces;
 using CatalogService.Infrastructure.Configurations;
 using CatalogService.Infrastructure.Context;
 using CatalogService.Infrastructure.Events;
@@ -9,8 +10,6 @@ using CatalogService.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
-using RabbitMQ.Client;
 using System.Diagnostics.CodeAnalysis;
 
 namespace CatalogService.Infrastructure;
@@ -33,8 +32,9 @@ public static class ServiceCollectionExtensions
 
         services.Configure<RabbitMqOptions>(configuration.GetSection(RabbitMqOptions.SectionName));
         services.Configure<EventPublisherOptions>(configuration.GetSection(EventPublisherOptions.SectionName));
-        services.AddSingleton<IEventPublisher, RabbitMqEventPublisher>();
-
+        services.AddScoped<IEventPublisher, OutboxEventPublisher>();
+        services.AddSingleton<IMessageBrokerClient, RabbitMqClient>();  
+        
         return services;
     }
 }

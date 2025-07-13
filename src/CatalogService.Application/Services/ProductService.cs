@@ -18,16 +18,20 @@ public class ProductService(
     {
         await base.AddEntityAsync(entity, cancellationToken);
 
-        ProductCreatedDomainEvent @event = entityToEventMapper.Map<ProductCreatedDomainEvent>(entity);
-        await eventPublisher.PublishAsync(@event, cancellationToken);
+        ProductCreatedDomainEvent domainEvent = entityToEventMapper.Map<ProductCreatedDomainEvent>(entity);
+        await eventPublisher.PublishAsync(domainEvent, cancellationToken);
+
+        await repository.SaveChangesAsync(cancellationToken);
     }
 
     public override async Task UpdateEntityAsync(Product entity, CancellationToken cancellationToken)
     {
         await base.UpdateEntityAsync(entity, cancellationToken);
 
-        ProductUpdatedDomainEvent @event = entityToEventMapper.Map<ProductUpdatedDomainEvent>(entity);
-        await eventPublisher.PublishAsync(@event, cancellationToken);
+        ProductUpdatedDomainEvent domainEvent = entityToEventMapper.Map<ProductUpdatedDomainEvent>(entity);
+        await eventPublisher.PublishAsync(domainEvent, cancellationToken);
+
+        await repository.SaveChangesAsync(cancellationToken);
     }
 
     public Task<List<Product>> GetProductsByCategoryIdAsync(int categoryId, CancellationToken cancellationToken) => repository.GetProductsByCategoryIdAsync(categoryId, cancellationToken);

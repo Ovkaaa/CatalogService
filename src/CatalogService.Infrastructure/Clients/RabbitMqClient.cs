@@ -1,20 +1,18 @@
-using CatalogService.Application.Interfaces.Events;
+using CatalogService.Infrastructure.Clients.Interfaces;
 using CatalogService.Infrastructure.Configurations;
 using Microsoft.Extensions.Options;
 using RabbitMQ.Client;
 using System.Text;
 using System.Text.Json;
 
-namespace CatalogService.Infrastructure.Events;
+namespace CatalogService.Infrastructure.Clients;
 
-public class RabbitMqEventPublisher(
+public class RabbitMqClient(
     IOptions<RabbitMqOptions> rabbitMqOptions,
-    IOptions<EventPublisherOptions> eventPublisherOptions) : IEventPublisher
+    IOptions<EventPublisherOptions> eventPublisherOptions) : IMessageBrokerClient
 {
-    public async Task PublishAsync<T>(T domainEvent, CancellationToken cancellationToken)
+    public async Task PublishAsync(string message, string eventType, CancellationToken cancellationToken)
     {
-        var eventType = typeof(T).Name;
-
         if (!eventPublisherOptions.Value.EventQueues.TryGetValue(eventType, out var queueName))
         {
             throw new InvalidOperationException($"Queue not configured for event type: {eventType}");
@@ -32,7 +30,7 @@ public class RabbitMqEventPublisher(
             cancellationToken: cancellationToken
         );
 
-        var mesaage = Encoding.UTF8.GetBytes(JsonSerializer.Serialize(domainEvent));
+        var mesaage = Encoding.UTF8.GetBytes(message);
 
         await channel.BasicPublishAsync(
             exchange: string.Empty,

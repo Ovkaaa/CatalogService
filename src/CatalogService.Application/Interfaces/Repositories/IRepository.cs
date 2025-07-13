@@ -7,4 +7,5 @@ public interface IRepository<TEntity> where TEntity : class
     Task<List<TEntity>> GetEntitiesAsync(CancellationToken cancellationToken);
     Task<TEntity?> GetEntityByIdAsync(int id, CancellationToken cancellationToken);
     Task UpdateEntityAsync(TEntity entity, CancellationToken cancellationToken);
+    Task SaveChangesAsync(CancellationToken cancellationToken);
 }
