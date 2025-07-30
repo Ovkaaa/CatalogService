@@ -10,6 +10,8 @@ using CatalogService.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
+using RabbitMQ.Client;
 using System.Diagnostics.CodeAnalysis;
 
 namespace CatalogService.Infrastructure;
@@ -34,6 +36,7 @@ public static class ServiceCollectionExtensions
         services.Configure<EventPublisherOptions>(configuration.GetSection(EventPublisherOptions.SectionName));
         services.AddScoped<IEventPublisher, OutboxEventPublisher>();
         services.AddSingleton<IMessageBrokerClient, RabbitMqClient>();  
+        services.AddSingleton<IConnectionProvider, RabbitMqConnectionProvider>();  
         
         return services;
     }

@@ -2,13 +2,13 @@ using CatalogService.Infrastructure.Clients.Interfaces;
 using CatalogService.Infrastructure.Configurations;
 using Microsoft.Extensions.Options;
 using RabbitMQ.Client;
+using System.Runtime.InteropServices;
 using System.Text;
-using System.Text.Json;
 
 namespace CatalogService.Infrastructure.Clients;
 
 public class RabbitMqClient(
-    IOptions<RabbitMqOptions> rabbitMqOptions,
+    IConnectionProvider connectionProvider,
     IOptions<EventPublisherOptions> eventPublisherOptions) : IMessageBrokerClient
 {
     public async Task PublishAsync(string message, string eventType, CancellationToken cancellationToken)
@@ -18,7 +18,7 @@ public class RabbitMqClient(
             throw new InvalidOperationException($"Queue not configured for event type: {eventType}");
         }
 
-        using var connection = await CreateConnectionAsync(rabbitMqOptions.Value);
+        using var connection = await connectionProvider.GetConnection();
         using var channel = await connection.CreateChannelAsync(cancellationToken: cancellationToken);
 
         await channel.QueueDeclareAsync(
